@@ -1,0 +1,49 @@
+﻿
+
+===================================================================================================
+|1.0	Overview
+===================================================================================================
+ 1.1	General:
+		this is a project witch target it is to simulate a PLC on base of an S7
+
+		the whole project is in the main namespace CKT and then seperated into sub namespaces
+
+		this project is divided into several projects:
+		VM_CKTPLC			: the whole solution for a S7 virtual CPU
+		[solution]
+
+			CKTCommon		: this dll contains helper for the keyboard use and a commandline		[NS=CKT.INPUT]
+			[dll]			  processor
+							  this is a CKT standart libary
+
+			CKTPLC_Basic	: this dll contains informations of the project witch will be needed	[NS=CKT.VM.PLC_Basic]
+			[dll]			  by other projects of the VM_CKTPLC solution
+			
+			VM_CKTPLC		: this is the virtual maschine for the cpu to run						[NS=CKT.VM.CKTPLC]
+			[exe]
+				PLCManager	: this is the general manager of the PLC-CPU and starts/stopps the CPU
+							  and manage the memorys for the instructions, stack, input, output, 
+							  marker and controls the simple diagnostic function via a PLC-View
+							  where you can give a file witch declares what you want to see
+				
+				PLCCPU		: this is the virtual CKT-PLC-CPU and do the intructions
+
+			Compile_CKTPLC	: this is the compiler for all files for the CKT-PLC					[NS=CKT.VM.COMPILE]
+			[exe]			  it compiles text files to object code files that can be read by 
+							  the PLCManager
+							  *.CED, *.CDB, *.CFB -> *.COB
+							  *.CPR -> *.COP
+							  *.CPV -> *.COV
+
+			CKTPLC_Edit		: this is the Editor for all the files needed or used by the CKT-PLC	[NS=CKT.VM.EDIT]
+			[exe]			  *.CED; *.CDB; *.CFB; *.CPR; *.CPV
+			WPF Apllication	  the editor also has the funktion to watch the CKT-PLC States
+							  and the Memory so it can be used for visualization of the CKT-PLC
+							  and its actions
+							  for this visu it will give a *.CEV file and a compiled version *.COV
+							  this can be loaded in the editor to show the things you want
+							  the editor can also load the PLC-COV files [*.CPV] and use this for 
+							  visualization but the *.CEV file can do more things as show you in and 
+							  outs or markers you can make a moveing modell of things and give them
+							  outputs or inputs to move the objects [later if it is possible]
+

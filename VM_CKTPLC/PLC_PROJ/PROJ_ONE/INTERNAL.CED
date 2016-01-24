@@ -1,0 +1,6 @@
+﻿*Test file for compile and CPU run
+          L   I0.0
+		  =   Q0.1
+
+		  L   1000
+		  T   MW0

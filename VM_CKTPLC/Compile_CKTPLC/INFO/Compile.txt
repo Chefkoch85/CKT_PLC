@@ -1,0 +1,24 @@
+﻿
+
+===================================================================================================
+|1.0	Overview
+===================================================================================================
+ 1.1	TODO:
+
+ 1.1a	General:
+		for Compile you need a project file so is it also in the PLC where you have to load
+		a binary project file or you can compile the single files to a binary format
+
+ 1.1b	MIN CPU Version:
+		Integrate the reading of the CMD_VERSION.CRD file into memeory to check with CPU-Version
+		we need to write in the Compiled file header
+
+ 1.1c	Updatenumber:
+		think about the updatenumber and how to change it
+
+ 1.1d	rewrite the Compiler classes with the interface and make them non static
+
+ 1.1e	rework the header of the files
+		ED: rearange the header so that is equal to the other headers
+		ED: isActive used?
+		ED: name as string zero

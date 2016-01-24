@@ -1,0 +1,30 @@
+﻿*Test file for compile and CPU run
+-		  L   0			*-
+-		  T   QW5		*-
+
+-         L   I0.0		*-
+-		  =N   Q0.1		*-
+
+-		  L   1000		*-
+-		  T   MW2		*-
+		  
+-		  L   I0.7		*-
+-		  JCN JUMP1		*-
+-		  JA  JUMP2		*-
+		  
+JUMP1	  L   MW2		*-
+-		  T   QW5		*-
+		  
+JUMP2	  L   I0.7		*-
+-		  S   M0.7		*-
+		  
+-		  L   I0.6		*-
+-		  R   M0.7		*-
+		  
+-		  L   I0.1		*-
+-		  A   I0.2		*-
+-		  =   Q0.6		*-
+		  
+-		  L   I0.3		*-
+-		  O   I0.4		*-
+-		  =   Q0.7		*-

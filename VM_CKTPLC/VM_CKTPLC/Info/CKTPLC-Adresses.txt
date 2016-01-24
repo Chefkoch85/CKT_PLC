@@ -1,0 +1,61 @@
+﻿===================================================================================================
+|Adressranges
+===================================================================================================
+	there are 4096 bytes for each type of data (I,Q,M)
+	all acessors share the same memory e.g. M0.0 and MB0 and MW0 are at the same postion
+	only the data length is diffrent this is the same for all type of data
+
+	Input:		IW0 - IW4094 (IB0 - IB4095) [I0.0 - I4095.15]
+	Output:		QW0 - QW4094 (QB0 - QB4095) [Q0.0 - Q4095.15]
+	Marker:		MW0 - MW4094 (MB0 - MB4096) [M0.0 - M4095.15]
+
+	Target for command is 4 byte
+	B3 B2 B1 B0
+	TT|TT|TT|TT
+
+	if the highest bit of B3 is "1" then it is a memory location (see ML) else it is a constant number (see CN)
+
+	ML:
+	as i said before when the highest bit is "1" then 7 bits signals it is a I/Q/M and the other 24 bits represent a memory adress
+	if the bit 24 is "1" then it is a Input address
+	if the bit 25 is "1" then it is a Output address
+	if the bit 26 is "1" then it is a Marker address
+	if the bit 27 is "1" then it is a Jump address
+	if the bit 28 is "1" then we have a bit access and so the bits 23,22,21,20 are represent witch bit we want (0-15)
+	/!if the bit 29 is "1" then we have BYTE/WORD/DWORD access and then the bits 23,22,21,20 represents with length!/
+	(20="1":BYTE; 21="1":WORD; 22="1":DWORD; 23="1":QWORD it can only be one of it "1")
+	the other 20 bits represent the adress witch is given in byte offsets from the start of the type array 
+	(max adress [byte] is 1048575 that means you can maximal adress 524287 WORDs and 4096 bytes 2048 WORDs are standart but it can be more if nessecary)
+
+	BIT	| 3 3 2 2 2 2 2 2 | 2 2 2 2 1 1 1 1 | 1 1 1 1 1 1 0 0 | 0 0 0 0 0 0 0 0
+		| 1 0 9 8 7 6 5 4 | 3 2 1 0 9 8 7 6 | 5 4 3 2 1 0 9 8 | 7 6 5 4 3 2 1 0
+	---------------------------------------------------------------------------
+	STA | 1 0 0 1 0 0 0 1 | 0 0 0 1 0 0 0 0 | 0 0 0 0 0 0 0 0 | 0 0 0 0 0 1 0 1	= I5.1
+	STA | 1 0 0 0 0 0 0 1 | 0 0 0 1 0 0 0 0 | 0 0 0 0 1 1 1 1 | 1 1 1 1 1 1 1 1	= IB4095
+	STA | 1 0 0 1 0 0 1 0 | 0 0 0 0 0 0 0 0 | 0 0 0 0 0 0 0 0 | 0 1 1 0 0 1 0 0	= Q100.0
+	STA | 1 0 0 0 0 0 1 0 | 0 1 0 0 0 0 0 0 | 0 0 0 0 0 0 0 0 | 0 0 1 1 0 0 1 0	= QD50
+	STA | 1 0 0 1 0 0 1 0 | 1 1 1 1 0 0 0 0 | 0 0 0 0 0 0 0 0 | 0 0 0 1 0 1 0 0	= Q20.15
+	STA | 1 0 0 1 0 1 0 0 | 0 0 1 1 0 0 0 0 | 0 0 0 0 0 0 0 0 | 0 0 0 0 0 0 0 0	= M0.3
+	STA | 1 0 0 0 0 1 0 0 | 0 0 1 0 0 0 0 0 | 0 0 0 0 0 0 0 0 | 0 0 0 0 0 1 1 0	= MW6
+	STA | 1 0 0 0 1 0 0 0 | 0 0 0 0 0 0 0 0 | 0 0 0 0 0 0 0 0 | 0 0 1 0 0 1 0 0	= JUMP Adress instruction number 36
+	STA | 1 0 0 0 1 0 0 0 | 0 0 0 1 0 0 0 0 | 0 0 0 0 0 0 0 0 | 0 0 1 0 0 1 0 0	= JUMP Adress instruction number 36 with looping
+
+	JUMP: the adress of a jump instruction is the next intruction that should be executed in instructions not in byte
+		  that means the 36 as jump target is the instruction 36 at byte 36 * INSTR_SIZE(5) = 180 in m_byaInstrMemory
+
+		  when a jump with looping is found then the programm jumps to the last instruction, end the cycle and jumps to 
+		  the specified adress (check open)
+
+	CN:
+	as i said before when the highest bit is "0" then the other 31 bits represent a constant number
+
+	BIT	| 3 3 2 2 2 2 2 2 | 2 2 2 2 1 1 1 1 | 1 1 1 1 1 1 0 0 | 0 0 0 0 0 0 0 0
+		| 1 0 9 8 7 6 5 4 | 3 2 1 0 9 8 7 6 | 5 4 3 2 1 0 9 8 | 7 6 5 4 3 2 1 0
+	---------------------------------------------------------------------------
+	STA | 0 0 0 0 0 0 0 0 | 0 0 0 0 0 0 0 0 | 1 0 0 0 0 0 0 0 | 1 0 0 0 0 0 0 1	= 32.897
+	STA | 0 0 0 0 0 0 0 0 | 0 0 0 0 0 0 0 0 | 0 0 0 0 0 0 0 0 | 1 1 1 1 1 1 1 1	= 255
+	STA | 0 0 0 0 0 0 0 0 | 0 0 0 0 0 0 0 0 | 1 1 1 1 1 1 1 1 | 1 1 1 1 1 1 1 1	= 65.535
+	STA | 0 0 0 0 0 0 0 0 | 1 1 1 1 1 1 1 1 | 1 1 1 1 1 1 1 1 | 1 1 1 1 1 1 1 1	= 16.777.215
+	STA | 0 1 1 1 1 1 1 1 | 1 1 1 1 1 1 1 1 | 1 1 1 1 1 1 1 1 | 1 1 1 1 1 1 1 1	= 2.147.483.647 [MAX_CONST = MAX_INT || MAX_DWORD / 2 - 1]
+
+	for now no Timers are integrated

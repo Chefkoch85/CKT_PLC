@@ -1,0 +1,400 @@
+﻿===================================================================================================
+|0.0	Table of content
+===================================================================================================
+ 1.0	Overview
+	1.0a	General
+	1.0b	Bussystem
+	1.0c	Visulition via PLC
+
+ 3.0	Editable Files
+	 3.1	Editable File - Program Block [CED] (ChefkochEDit) (STD:PROGRAM-BLOCK)
+	 3.1a	General
+	 3.1b	Shortcut description
+	 3.1c	Example
+
+	 3.2	Editable File - Data Block [CDB] (ChefkochDataBank) (for Storage of Values as Database)
+	 3.2a	General
+	 3.2b	Shortcut description
+	 3.2c	Example
+
+	 3.3	Editable File - Function Block [CFB] (ChefkochFunctionBlock) (Callable Program-Block)
+	 3.3a	General
+	 3.3b	Shortcut description
+	 3.3c	Example
+
+	 3.4	Editable Files - Project file [CPR] (ChefkochPRoject)
+	 3.4a	General
+	 3.4b	Shortcut description
+	 3.4c	Example
+
+	 3.5	Editable Files - PLC Visu [CPV] (ChefkochProjectVisu)
+	 3.5a	General
+	 3.5b	Shortcut description
+	 3.5c	Example
+
+ 4.0	Compiled Files
+	 4.1	Compiled File - Program Block [CED->COB] (ChefkochObjectBlock)
+	 4.1a	General
+	 4.1b	File header
+	 4.1c	Single CPU instrution
+	 4.1d	Single line in compiled file
+
+	 4.2	Compiled File - Data Block [CDB->COB] (ChefkochObjectBlock)
+	 4.2a	General
+	 4.2b	File header
+	 4.2c	Single CPU instrution
+	 4.2d	Single line in compiled file
+
+	 4.3	Compiled File - Function Block [CFB->COB] (ChefkochObjectBlock)
+	 4.3a	General
+	 4.3b	File header
+	 4.3c	Single CPU instrution
+	 4.3d	Single line in compiled file
+
+	 4.4	Compiled Files - Project file [CPR->COP] (ChefkochObjectProject)
+	 4.4a	General
+	 4.4b	File header
+	 4.4c	Single COB info
+
+	 4.5	Compiled Files - PLC Visu [CPV->COV] (ChefkochObjectVisu)
+	 4.5a	General
+	 4.5b	File header
+	 4.5c	Shortcut description
+	 4.5d	Single visu field
+
+===================================================================================================
+|1.0	Overview
+===================================================================================================
+ 1.0a	General:
+		the PLC runs in a endless loop until it is stopped
+		you write the programms in a editor and make a "*.ced" file
+		this will be compiled to bytecode as a "*.cob" file
+		and this file can be executed from the CKTPLC-CPU
+
+		later you can make a project file "*.cpr" to store a list of programm blocks that
+		you can load to your PLC and the order defines the priority of the blocks
+
+		in the end version you can even call other blocks from executed blocks to make functions
+		for things that often will be used
+
+		also it will be possible to run more then one instance of the CKTPLC and you can 
+		interchange values via a bus System between the PLC's
+
+ 1.0b	Bussytem:
+		there for you have to code a program block with the params of the bus usage
+		on what address does the PLC get informations [I upper 1024 byte] and sent
+		informations [O upper 1024 byte] and the length of the data in bytes
+		for this will be a system block used to configurate this values to the CPU
+		then this have to be done too to the normal program cycle 
+		this feature will be avalibe in further versions of CKTPLC
+
+ 1.0c	Visulation via PLC:
+		you can make a Visu-file for the PLC application to display informations of the memory
+		states
+		you have to specify a file [*.cpv] in witch is specified what memory locations should
+		be shown
+		you can specify squares with a title, a memory location and the value of this position
+		you can also specify if a bit access should show as one bit value or 8 bit values
+
+		!! For a complete list of commands see "CKTPLC-Commands" and !!
+		!! the ranges for the Memorylocation "CKTPLC-Adresses"		 !!
+
+ 1.0d	Other files:
+		for other uses there will be addional files
+		there were files with extension 
+			*.CRD for ChefkochReadableData and 
+			*.CBD for ChefkochBinaryData
+
+		the [CRD] files will be written in an ini like style
+			[CAPTION]
+			KEY="VALUE"
+
+		for the Compiler there will be a file witch knows the CKT-PLC-CPU commands and the 
+		min CPU Version for them 
+		this will be stored in a file called "CMD_VERSION.crd"
+
+===================================================================================================
+|3.1	Editable File - Program Block [CED]
+===================================================================================================
+ 3.1a	General:
+		Editable File looks like a S7 file and has the extension ".ced"
+
+ 3.1b	Shortcut description:
+		J: JMP				= 9 chars for Jump target
+		C: COMMAND			= 1-3 chars for command
+		T: MEMORYLOCATION	= 1-8 chars for Memorylocation (I1.4 or MW4000 or M1024.15)
+
+ 3.1c	Example:
+		J		C	T
+		----------------
+		X1		L	I1.4
+				=	Q0.3
+
+				L	Q0.3
+				JC	THERE
+				JA	END
+
+		THERE:	L	IW2
+				T	MW1024
+
+				L	M1024.0
+				S	Q0.7
+
+		END:	L	M0.0
+				=	M0.0
+
+===================================================================================================
+|3.2	Editable File - Data Block [CDB]
+===================================================================================================
+
+
+===================================================================================================
+|3.3	Editable File - Function Block [CFB]
+===================================================================================================
+
+
+===================================================================================================
+|3.4	Editable File - Project file [CPR]
+===================================================================================================
+ 3.4a	General:
+		the project file (*.cpr) stores the order of the single program blocks and so
+		the priority of the block (first less priority)
+
+		the project file will also be compiled for the PLC so that you can load the Project file 
+		to the PLC and the PLC makes loads all single files for you
+
+		the Project contains general this informations (Project infos)
+		PROJNAME	= Project name
+		PROJCOMP	= Company whos created (with ';' seperated more then one)
+		PROJAUTOHR	= Author of the Project (with ';' seperated more then one)
+		PROJDESC	= a short description of the Poject [max 128 chars] (for more use a seperated file)
+		PROJSTART	= Date and time when the project started				(mm/dd/yyyy&hh:mm:ss)
+		PROJMODIFY	= Date and time when the project file was last modified (mm/dd/yyyy&hh:mm:ss)
+
+		also it contains the name of the program files
+
+		and if the programm block should be active or not
+
+		and of curse some metadata:
+		- witch type of program block it is
+		- the size of the program block in byte
+		- the date it was generated
+		- the date of the last modifiction
+		- the author and company
+		- a version number of the file
+
+		a project file can contain following program blocks:
+		- PB = [*.ced] : Program Blocks
+		- DB = [*.cdb] : Data Blocks
+		- FB = [*.cfb] : Funktion Blocks (this can be called and have params (in/out/temp))
+		- SY = [*.csy] : Symbol file contains variable names that refers to a memorylocation 
+						 and is globaly used
+
+		in all files is a line that starts with a "*" a comment line 
+		also all empty lines have a "*" as first character but thats not nessecary 
+		(the compiler ignores empty lines)
+
+		all files will be compiled to *.cob (Cktplc-Object-Block) files to run in the CKT-PLC
+
+		in future it will be possible to have a project file for more then one CKT-PLC 
+		so 2 ore more CPU programms can handled in one Project for this it will give a sepeared overall project file
+		that stores the infos to the single CKT-PLC project files
+
+ 3.4b	Shortcut description:
+		B: Block number (Pos)	= max 255 Blocknumber and priority of the Block 0 is reserved for internal data
+		T: Type					= 2 chars (PB,DB,FB)
+		A: Active				= 1 char (Y/N)
+		N: File Name			= limited by the "|" in the compiled file string is zero terminated
+		D: Date of Creation		= max 10 chars for date + 8 chars for time and 1 [&] char space = max 19 chars (mm/dd/yyyy&hh:mm:ss)
+		E: Date of Lastmodify	= max 10 chars for date + 8 chars for time and 1 [&] char space = max 19 chars (mm/dd/yyyy&hh:mm:ss)
+		S: Size in byte			= I * INSTR_SIZE + 16 byte (Header)
+		I: size in instr		= limited by the "|"
+		C: Company				= limited by the "|" in the compiled file string is zero terminated
+		U: Author				= limited by the "|" in the compiled file string is zero terminated
+		P: Updatenumber			= max 6 chars how often compiled
+
+ 3.4c	Example:
+		PROJNAME="PROJ_ONE"
+		PROJVER="0.3"
+		PROJCOMP="CKT"
+		PROJAUTOHR="Schöne, Marcel; other"
+		PROJDESC=""
+		PROJSTART="2015/07/30&08:00"
+		PROJMODIFY="2015/07/30&08:00"
+		 B  |T |A|S	|I	|P	|D				 |E				  |V	|N					     |C		|U					this line is only here for explantion, the spaces are only here for visibillity		
+		--------------------------------------------------------------------------------------------------------		this line is only here for explantion
+		"000|xx|x|x |x  |x  |xx/xx/xxxx&xx:xx|xx/xx/xxxx&xx:xx|x.x	|FOR INTERNAL USAGE (BUS)|x	    |x"					the spaces are only here for visibillity, the '"' are neccessary	
+		"001|PB|Y|36|4  |1  |2015/07/30&08:05|2015/07/30/&09:00|0.2	|STD.CED				 |CKT	|Schöne, Marcel"	the spaces are only here for visibillity, the '"' are neccessary	
+
+===================================================================================================
+|3.5	Editable Files - PLC Visu [CPV]
+===================================================================================================
+ 3.5a	General:
+		this file contains the informations needed for the visu to define what memory locations
+		in witch lenght and a name of the field, abd if you want you can specify that the 
+		bit values will shown 8 bit per field
+		max 10 fields per row
+
+ 3.5b	Shortcut description:
+		R: Row			= [] Row of the field (in field coordinates)
+		C: Column		= [] Column of the field (in field coordinates)
+		N: Name			= [16 chars] Name of the field
+		T: Target		= []		Memory location
+		F: Flags		= [8 chars]	flags for bit view every char can be "1" or "0"
+
+ 3.5c	Flag description
+		POS	 ACTIVE	DESCRIPTION		
+		[1] = "0" = 8 bit display
+		[1] = "1" = single bit value
+		
+ 3.5d	Example:
+		VISUVER="0.1"
+		VISUCOMP="CKT"
+		VISUAUTHOR="Schöne, Marcel"
+		VISUDESC="Description for Visu"
+		VISUDATE="2015/08/02&18:05"
+		R2:C2|N234567890123456|T2345678|F2345678       
+		00:00|ROH-HAW-1		  |MW100   |00000000
+		01:00|FILT-HAW-1	  |MW102   |00000000
+		02:00|HAW-1 [0,1°]	  |MW104   |00000000
+		01:01|HA-GS			  |I1.0    |10000000
+		00:07|IN-IB5		  |IB5     |00000000
+
+===================================================================================================
+|4.1	Compiled File - Program Block [CED->COB]
+===================================================================================================
+ 4.1a	General:
+		the compiled file looks like desciption below and has the extension ".cob"
+		it also has a 16 byte header for informations
+
+		if the target is a memory location then the highest bit in target is set else
+		it is a constant value
+
+		so the max adress is DWORD / 2 - 1
+		and the max constant value is also DWORD / 2 - 1
+
+ 4.1b	File header:
+		V = compiler version (version of CKTPLC-CPU you have to use)
+		T = Type of block (PB=1, DB=2, FB=3)
+		A = is this block activ or disabled		// is it nesseccary?
+		C = count of instructions
+		U = how often was this file updated (compiled)
+		N = index to the name of the file stored in the *.cpr" file (max 255 files)
+		x = reserved
+		G = Tag : "OB" [ObjectBlock]
+
+		VVVV|TTAA|CCCC|CCCC|UUUU|UUUU|NNGG|GGxx
+
+ 4.1c	Single CPU instrution:
+		C: COMMAND			= [BYTE]	command code
+		T: TARGET			= [DWORD]	Memorylocation or absolute jump address
+		X: FILLBYTE			= [BYTE]	Fillbyte for 16byte allignment
+
+		CCCC|TTTT|TTTT|XXXX
+
+ 4.1d	Single line in compiled file (16byte):
+		a line will always be filled to 16 byte
+
+		max 3 intructions: 	CCTT|TTTT|TTCC|TTTT|TTTT|CCTT|TTTT|TTXX
+		2 intructions: 		CCTT|TTTT|TTCC|TTTT|TTTT|XXXX|XXXX|XXXX
+		1 intruction: 		CCTT|TTTT|TTXX|XXXX|XXXX|XXXX|XXXX|XXXX
+
+===================================================================================================
+|4.2	Compiled File - Data Block [CDB->COB]
+===================================================================================================
+
+
+===================================================================================================
+|4.3	Compiled File - Function Block [CFB->COB]
+===================================================================================================
+
+===================================================================================================
+|4.4	Compiled File - Project file [COP]
+===================================================================================================
+ 4.4a	General:
+		the compiled project file [*.cop] have the same informations as the normal file
+		only better readable for the PLC program sytem
+
+ 4.4b	file header
+		the file header contains the project infos and of course the count of entrys of *.cob files
+		the length will be defined by the string entrys
+
+		the file header will be filles with bytes of FF till it reaches a 16 byte allignment
+
+		G = [2xCHAR]	Tag : "PR" [PRoject]
+		H = [WORD]		Size of file header to now where the block description starts
+		V = [2xBYTE]	Project version
+		I = [BYTE]		Count of [COB] files listet
+		D = [5xBYTE,1xWORD] creation Date (yyyymmddhhmmss)
+		U = [5xBYTE,1xWORD] last modify date (yyyymmddhhmmss)
+		P = Projectname				(zero terminated)
+		C = Company names			(zero terminated)
+		A = Author names			(zero terminated)
+		S = Description of project	(zero terminated)
+
+		GGGG|HHHH|VVVV|IIDD|DDDD|DDDD|DDDD|UUUU|UUUU|UUUU|UU|PP..00|CC..00|AA..00|SS..00
+
+		xx..00 = null terminated string (no fix lenght)
+		Fileheader size depends on the strings for P,C,S,A
+
+ 4.4c	Shortcut description:
+		B: Block number (Pos) [1xBYTE]	= max 255 Blocknumber and priority of the Block 0 is reserved for internal data
+		A: Active			  [1xBYTE]	= 1 char (Y/N)
+		T:Type of block		  [1xBYTE]	= (PB=1, DB=2, FB=3)
+		S: Size in byte		  [1xUINT]	= max 8 chars I * INSTR_SIZE + 16 (Header)
+		I: size in instr	  [1xUINT]	= max 6 chars
+		P: Updatenumber		  [1xUINT]	= max 6 chars how often compiled
+		D: Date of Creation	  [5xBYTE,1xWORD]	= creation Date (yyyymmddhhmmss) = 7 byte
+		E: Date of Lastmodify [5xBYTE,1xWORD]	= last modify date (yyyymmddhhmmss) = 7 byte
+		V: Fileversion		  [2xBYTE]	= file version for company versioning of the files 
+		N: File Name			= max 20 chars 16 for name and 4 for .COB	(check should this be zero terminated?)
+		C: Company				= max 20 chars Company name					(check should this be zero terminated?)
+		U: Author				= max 20 chars Author name					(check should this be zero terminated?)
+
+ 4.4d	single block in this file
+		
+		BBAA|TT|SSSS|SSSS|IIII|IIII|PPPP|PPPP|DDDD|DDDD|DDDD|DDEE|EEEE|EEEE|EEEE|VVVV|NN..00|CC..00|UU..00 
+
+===================================================================================================
+|4.5	Compiled Files - PLC Visu [CPV->COV]
+===================================================================================================
+ 4.5a	General:
+		the compiled visu file [*.cov] have the same informations as the normal file
+		only better readable for the PLC program sytem
+		a single visu field has a size of 32 byte, the size of the header depends on the 
+		zero terminated strings but the header will allways be filled to 16 byte
+
+ 4.5b	file header
+		the file header contains the project infos and of course the count of entrys of *.cob files
+		the length will be defined by the string entrys
+
+		the file header will be filles with bytes of FF till it reaches a 16 byte allignment
+
+		G = [2xCHAR]	Tag : "PV" [ProjectVisu]
+		H = [WORD]		Size of file header to now where the Visu description starts
+		V = [2xBYTE]	Project version
+		I = [WORD]		Count of visu fields
+		D = [5xBYTE,1xWORD] creation Date (yyyymmddhhmmss)
+		x = not used
+		C = Company names			(zero terminated)
+		A = Author names			(zero terminated)
+		S = Description of project	(zero terminated)
+
+		GGGG|HHHH|VVVV|IIII|DDDD|DDDD|DDDD|DDxx|CC..00|AA..00|SS..00
+
+		xx..00 = null terminated string (no fix lenght)
+		Fileheader size depends on the strings for C,S,A
+
+ 4.5c	Shortcut description:
+		B: Number			[1xWORD]	= number of the field continues
+		R: Row				[1xBYTE]	= Row of the field
+		C: Column			[1xBYTE]	= Column of the field
+		N: Name				[16xCHAR]	= Name of the field 
+		T: Target			[1xDWORD]	= Target memory address
+		F: Flags			[1xBYTE]	= Flags for the field (see 3.5c)			
+
+ 4.5d	single visu field in this file
+		a single visu field has a size of 32 byte
+
+		BBBB|RRCC|TTTT|TTTT|XXXX|XXXX|XXXX|XXXX
+		NNNN|NNNN|NNNN|NNNN|NNNN|NNNN|NNNN|NNNN

@@ -1,0 +1,5 @@
+C:\Dokumente und Einstellungen\schoenem\My Documents\Visual Studio 2010\Projects\VM_CKTPLC\CKTPLC_Basic\bin\Release\CKTPLC_Basic.dll
+C:\Dokumente und Einstellungen\schoenem\My Documents\Visual Studio 2010\Projects\VM_CKTPLC\CKTPLC_Basic\bin\Release\CKTPLC_Basic.pdb
+C:\Dokumente und Einstellungen\schoenem\My Documents\Visual Studio 2010\Projects\VM_CKTPLC\CKTPLC_Basic\obj\Release\ResolveAssemblyReference.cache
+C:\Dokumente und Einstellungen\schoenem\My Documents\Visual Studio 2010\Projects\VM_CKTPLC\CKTPLC_Basic\obj\Release\CKTPLC_Basic.dll
+C:\Dokumente und Einstellungen\schoenem\My Documents\Visual Studio 2010\Projects\VM_CKTPLC\CKTPLC_Basic\obj\Release\CKTPLC_Basic.pdb
