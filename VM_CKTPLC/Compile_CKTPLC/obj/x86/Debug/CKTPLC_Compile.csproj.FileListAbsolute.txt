@@ -11,3 +11,6 @@ F:\PROGRAMM\Git Backup\CKT_PLC\VS2015\VM_CKTPLC\Compile_CKTPLC\obj\x86\Debug\Com
 F:\PROGRAMM\Git Backup\CKT_PLC\VS2015\VM_CKTPLC\Compile_CKTPLC\obj\x86\Debug\Compile_CKTPLC.pdb
 F:\PROGRAMM\GitHub.local\CKT-PLC\VM_CKTPLC\Compile_CKTPLC\obj\x86\Debug\Compile_CKTPLC.exe
 F:\PROGRAMM\GitHub.local\CKT-PLC\VM_CKTPLC\Compile_CKTPLC\obj\x86\Debug\Compile_CKTPLC.pdb
+C:\Prog\PROGRAM\Github.local\CKT_PLC\VM_CKTPLC\Compile_CKTPLC\obj\x86\Debug\Compile_CKTPLC.exe
+C:\Prog\PROGRAM\Github.local\CKT_PLC\VM_CKTPLC\Compile_CKTPLC\obj\x86\Debug\Compile_CKTPLC.pdb
+C:\Prog\PROGRAM\Github.local\CKT_PLC\VM_CKTPLC\Compile_CKTPLC\obj\x86\Debug\CKTPLC_Compile.csprojResolveAssemblyReference.cache

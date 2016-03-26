@@ -39,7 +39,9 @@ namespace CKT.VM.PLC_Basic
             JC      = 0x29,     // 041
             JCN     = 0x2A,     // 042
 
-            SET     = 0x3C,     // 060
+			TOF		= 0x33,		// 51
+
+			SET     = 0x3C,     // 060
             NOP     = 0x3D,     // 061
         }
 

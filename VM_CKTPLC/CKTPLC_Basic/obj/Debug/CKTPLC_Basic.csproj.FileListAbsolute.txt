@@ -8,3 +8,6 @@ F:\PROGRAMM\Git Backup\CKT_PLC\VS2015\VM_CKTPLC\CKTPLC_Basic\bin\Debug\CKTPLC_Ba
 F:\PROGRAMM\Git Backup\CKT_PLC\VS2015\VM_CKTPLC\CKTPLC_Basic\obj\Debug\CKTPLC_Basic.dll
 F:\PROGRAMM\Git Backup\CKT_PLC\VS2015\VM_CKTPLC\CKTPLC_Basic\obj\Debug\CKTPLC_Basic.pdb
 F:\PROGRAMM\Git Backup\CKT_PLC\VS2015\VM_CKTPLC\CKTPLC_Basic\obj\Debug\CKTPLC_Basic.csprojResolveAssemblyReference.cache
+C:\Prog\PROGRAM\Github.local\CKT_PLC\VM_CKTPLC\CKTPLC_Basic\obj\Debug\CKTPLC_Basic.csprojResolveAssemblyReference.cache
+C:\Prog\PROGRAM\Github.local\CKT_PLC\VM_CKTPLC\CKTPLC_Basic\obj\Debug\CKTPLC_Basic.dll
+C:\Prog\PROGRAM\Github.local\CKT_PLC\VM_CKTPLC\CKTPLC_Basic\obj\Debug\CKTPLC_Basic.pdb
